@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Ler e obter dados um arquivo JSON</h1>
+        <h2>Uso do XMLHttpRequest para obter o conteúdo de um arquivo - Requisição AJAX.</h2>
+        <p>O conteúdo está escrito no formato JSON, e pode facilmente ser convertido em um objeto JavaScript.</p>
+        <p>Para converter o conteúdo JSON em um objeto JavaScript utilize o método JSON.parse().</p>
+        <hr/>
+        
+        <p id="demo"></p>
+        
+        <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var cliente = JSON.parse(this.responseText);    
+            document.getElementById("demo").innerHTML = `
+                <h3>Dados do Cliente</h3>
+                <p>Cadastro: ${new Date(cliente.cadastro)}</p>    
+                <p>Nome: ${cliente.nome}</p> 
+                <p>Idade: ${cliente['idade']} anos</p>
+                <p>Cidade: ${cliente.cidade} - ${cliente.estado}</p>
+                <h4>Pets</h4>    
+                <table>
+                    <tr>
+                        <th>Animal</th>
+                        <th>Nome do Pet</th>
+                    </tr>
+                    <tr>
+                        <td>${cliente.pets[0]['animal']}</td>
+                        <td>${cliente.pets[0]['nome']}</td>
+                    </tr> 
+                    <tr>
+                        <td>${cliente.pets[1].animal}</td>
+                        <td>${cliente.pets[1].nome}</td>
+                    </tr>
+                    <tr>
+                        <td>${cliente.pets[2].animal}</td>
+                        <td>${cliente.pets[2].nome}</td>
+                    </tr>
+                </table>
+                <br/>    
+                <hr/>   
+        `
+          }
+        };
+        
+        xmlhttp.open("POST", "cliente.json", true);
+        xmlhttp.send();
+        </script>
+        
+        <p>Acesse o arquivo JSON <a href="/cliente.json" target="_blank">cliente.json</a></p>
+        
+        </body>
+        </html>
